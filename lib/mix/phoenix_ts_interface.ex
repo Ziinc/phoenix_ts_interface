@@ -1,4 +1,4 @@
-defmodule PhoenixJsroutes do
+defmodule PhoenixTsInterface do
   def function_name(%{helper: helper, opts: opts}) do
     "#{helper}_#{opts}" |> Macro.camelize() |> downcase_first
   end
@@ -19,7 +19,7 @@ defmodule PhoenixJsroutes do
   end
 
   def function_body(%{path: path}) do
-    PhoenixJsroutes.UrlTransformer.to_js(path)
+    PhoenixTsInterface.UrlTransformer.to_js(path)
   end
 
   # just for tests, so we can run the task in this project.

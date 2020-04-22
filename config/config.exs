@@ -10,7 +10,7 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-config :phoenix_jsroutes, module: PhoenixJsroutes
+config :phoenix_ts_interface, module: PhoenixTsInterface
 #
 # And access this configuration in your application as:
 #
@@ -28,5 +28,3 @@ config :phoenix_jsroutes, module: PhoenixJsroutes
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
-#
-config :execjs, runtime: Execjs.Runtimes.Node

@@ -1,24 +1,24 @@
-defmodule Mix.Tasks.Compile.Jsroutes do
+defmodule Mix.Tasks.Compile.TsInterface do
   use Mix.Task
   require EEx
 
-  @shortdoc "Generates helpers to access server paths via javascript"
-  @manifest ".compile.jsroutes"
+  @shortdoc "Generates TS request helpers to make API calls"
+  @manifest ".compile.ts_interface"
 
-  @default_out_folder "assets/static/js"
-  @default_out_file "phoenix-jsroutes.js"
+  @default_out_folder "assets/deps/ts"
+  @default_out_file "phoenix_ts_interface.ts"
 
   @spec run(OptionParser.argv()) :: :ok | :noop
   def run(args) do
     {task_opts, _, _} = OptionParser.parse(args, switches: [force: :boolean])
     app = Mix.Project.config()[:app]
-    app_env = Application.get_env(app, :jsroutes) || Keyword.new()
+    app_env = Application.get_env(app, :ts_interface) || Keyword.new()
     output_folder = Keyword.get(app_env, :output_folder, @default_out_folder)
     module = router(app, task_opts)
     file = Path.join(output_folder, @default_out_file)
     mappings = [{module, file}]
 
-    Mix.Compilers.Phoenix.JsRoutes.compile(manifest(), mappings, task_opts[:force], fn
+    Mix.Compilers.Phoenix.TsInterface.compile(manifest(), mappings, task_opts[:force], fn
       module, output ->
         routes = routes(module, app_env)
         File.mkdir_p(Path.dirname(output))
@@ -30,12 +30,12 @@ defmodule Mix.Tasks.Compile.Jsroutes do
   Cleans up compilation artifacts.
   """
   def clean do
-    Mix.Compilers.Phoenix.JsRoutes.clean(manifest())
+    Mix.Compilers.Phoenix.TsInterface.clean(manifest())
   end
 
   defp manifest, do: Path.join(Mix.Project.manifest_path(), @manifest)
 
-  EEx.function_from_file(:defp, :gen_routes, "priv/templates/jsroutes.exs", [:routes])
+  EEx.function_from_file(:defp, :gen_routes, "priv/templates/ts_interface.exs", [:routes])
 
   defp router(app, args) do
     module =

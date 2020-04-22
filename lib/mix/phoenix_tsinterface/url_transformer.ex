@@ -1,6 +1,6 @@
-defmodule PhoenixJsroutes.UrlTransformer do
+defmodule PhoenixTsInterface.UrlTransformer do
   def to_js(path) do
-    result = %{ index: 0, length: String.length(path), path: path, state: "start_path", code: "" }
+    result = %{index: 0, length: String.length(path), path: path, state: "start_path", code: ""}
     do_recur(result).code
   end
 

@@ -1,11 +1,11 @@
-defmodule Mix.Compilers.Phoenix.JsRoutes do
+defmodule Mix.Compilers.Phoenix.TsInterface do
   @moduledoc false
 
   @manifest_vsn :v1
 
   @doc """
   This compiler works a little bit different than the usual in the sense that it does not compile sources,
-  it compiles Router modules into javascript files instead.
+  it compiles Router modules into typescript files instead.
 
   The big difference is that the ```source files``` are in fact ```source modules```
   and to decide if an input is stale or not the compiler uses the module's md5 hash.
