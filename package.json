@@ -1,0 +1,27 @@
+{
+  "name": "phoenix_ts_interface",
+  "version": "1.0.0",
+  "description": "Allows TS inference for requests and responses from your Phoenix API.",
+  "main": "tmp/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ziinc/phoenix-ts-interface.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ziinc/phoenix-ts-interface/issues"
+  },
+  "homepage": "https://github.com/Ziinc/phoenix-ts-interface#readme",
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  }
+}

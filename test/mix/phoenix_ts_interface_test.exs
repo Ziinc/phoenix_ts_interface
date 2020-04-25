@@ -1,8 +1,44 @@
 defmodule PhoenixTsInterfaceTest do
   use ExUnit.Case
-  doctest PhoenixTsInterface
 
   import PhoenixTsInterface
+
+  @valid_route %Phoenix.Router.Route{
+    assigns: %{},
+    helper: "page",
+    host: nil,
+    kind: :match,
+    line: 3,
+    metadata: %{log: :debug},
+    path: "/",
+    pipe_through: [],
+    plug: PhoenixTsInterface.Controller,
+    plug_opts: :index,
+    private: %{},
+    trailing_slash?: false,
+    verb: :get
+  }
+  @invalid_route %Phoenix.Router.Route{
+    assigns: %{},
+    helper: "user",
+    host: nil,
+    kind: :match,
+    line: 2,
+    metadata: %{log: :debug},
+    path: "/",
+    pipe_through: [],
+    plug: PhoenixTsInterface.Controller,
+    plug_opts: :index,
+    private: %{},
+    trailing_slash?: false,
+    verb: :get
+  }
+
+  test "get_route_return_types returns the types of controller route" do
+    get_route_return_types(@valid_route)
+
+    assert false
+  end
 
   test "function_name returns the camelized js function name" do
     assert function_name(%{helper: "user", opts: :create}) == "userCreate"

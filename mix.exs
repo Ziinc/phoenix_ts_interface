@@ -5,7 +5,7 @@ defmodule PhoenixTsInterface.Mixfile do
     [
       app: :phoenix_ts_interface,
       version: "1.0.0",
-      elixir: "~> 1.4",
+      elixir: "~> 1.10",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       description: description(),

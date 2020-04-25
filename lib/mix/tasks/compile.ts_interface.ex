@@ -21,8 +21,9 @@ defmodule Mix.Tasks.Compile.TsInterface do
     Mix.Compilers.Phoenix.TsInterface.compile(manifest(), mappings, task_opts[:force], fn
       module, output ->
         routes = routes(module, app_env)
+        IO.inspect(routes)
         File.mkdir_p(Path.dirname(output))
-        File.write(output, gen_routes(routes))
+        File.write(output, gen_requests(routes))
     end)
   end
 
@@ -35,7 +36,12 @@ defmodule Mix.Tasks.Compile.TsInterface do
 
   defp manifest, do: Path.join(Mix.Project.manifest_path(), @manifest)
 
-  EEx.function_from_file(:defp, :gen_routes, "priv/templates/ts_interface.exs", [:routes])
+  EEx.function_from_file(
+    :defp,
+    :gen_requests,
+    "lib/mix/phoenix_ts_interface/templates/requests.ts.eex",
+    [:routes]
+  )
 
   defp router(app, args) do
     module =

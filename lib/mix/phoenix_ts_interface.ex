@@ -1,4 +1,32 @@
 defmodule PhoenixTsInterface do
+  @doc """
+  Fetches the return types from the controller.
+
+  The controller specs should reference relevant views as return types
+
+  The first tuple position is the function name
+
+  The second tuple position is the input types
+
+  The third tuple position is the output types
+
+
+  For example, takes a map with the "id" key and a string value, and outputs a map with the "value" key as a string
+  iex> get_route_return_types(route)
+  [
+    {:index,  }
+  ]
+
+  """
+  def get_route_return_types(route) do
+    {:ok, specs} = Code.Typespec.fetch_specs(route.plug)
+    # ExDoc.Retriever.docs_from_modules([route.plug], %ExDoc.Config{})
+    # Introspection.t({, route.plug_opts, 2})
+    specs
+    |> IO.inspect()
+  end
+
+  @spec function_name(%{helper: any}) :: binary
   def function_name(%{helper: helper, opts: opts}) do
     "#{helper}_#{opts}" |> Macro.camelize() |> downcase_first
   end

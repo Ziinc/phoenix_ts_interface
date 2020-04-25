@@ -25,15 +25,14 @@ defmodule Mix.Tasks.Compile.TsInterfaceTest do
   end
 
   test "generates a valid ts module" do
-    run_with_env([output_folder: "/tmp"], fn ->
+    run_with_env([output_folder: "tmp"], fn ->
       Mix.Tasks.Compile.TsInterface.run(["--router", "Mix.RouterTest"])
-      assert_file("/tmp/phoenix_ts_interface.ts")
+      assert_file("tmp/phoenix_ts_interface.ts")
 
       # run typescript compiler
-
+      assert {_, 0} = System.cmd("npm", ["run", "compile"])
       # run typescript tests
-
-      File.rm("/tmp/phoenix_ts_interface.ts")
+      assert {_, 0} = System.cmd("npm", ["test"])
 
       throw("not impl")
     end)

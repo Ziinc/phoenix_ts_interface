@@ -27,35 +27,35 @@ defmodule Mix.Compilers.Phoenix.TsInterfaceTest do
 
   @tag :clean_folder
   test "fires the callback and writes the manifest", %{folder: folder} do
-    assert :ok = compile({RouterTest, Path.join(folder, "teste-routes.js")})
+    assert :ok = compile({RouterTest, Path.join(folder, "test_requests.ts")})
     assert_file(@manifest)
   end
 
   @tag :clean_folder
   test "return :noop when there's no change", %{folder: folder} do
-    assert :ok = compile({RouterTest, path(folder, "teste-routes.js")})
-    assert :noop = compile({RouterTest, path(folder, "teste-routes.js")})
+    assert :ok = compile({RouterTest, path(folder, "test_requests.ts")})
+    assert :noop = compile({RouterTest, path(folder, "test_requests.ts")})
   end
 
   @tag :clean_folder
   test "forces compilation to run", %{folder: folder} do
-    assert :ok = compile({RouterTest, path(folder, "teste-routes.js")})
-    assert :ok = compile({RouterTest, path(folder, "teste-routes.js")}, true)
+    assert :ok = compile({RouterTest, path(folder, "test_requests.ts")})
+    assert :ok = compile({RouterTest, path(folder, "test_requests.ts")}, true)
   end
 
   @tag :clean_folder
   test "fires again when the module code changes", %{folder: folder} do
-    assert :ok = compile({RouterTest, path(folder, "teste-routes.js")})
+    assert :ok = compile({RouterTest, path(folder, "test_requests.ts")})
     redefine_module!()
-    assert :ok = compile({RouterTest, path(folder, "teste-routes.js")})
+    assert :ok = compile({RouterTest, path(folder, "test_requests.ts")})
   end
 
   @tag :clean_folder
   test "fires the callback for every module in the mappings", %{folder: folder} do
     mappings = [
-      {RouterTest, path(folder, "teste-routes.js")},
-      {Elixir.Atom, path(folder, "atom.js")},
-      {Elixir.Agent, path(folder, "agent.js")}
+      {RouterTest, path(folder, "test_requests.ts")},
+      {Elixir.Atom, path(folder, "atom.ts")},
+      {Elixir.Agent, path(folder, "agent.ts")}
     ]
 
     {:ok, agent} = Agent.start_link(fn -> 0 end)
@@ -76,21 +76,21 @@ defmodule Mix.Compilers.Phoenix.TsInterfaceTest do
 
   @tag :clean_folder
   test "keeps the manifest up to date", %{folder: folder} do
-    assert :ok = compile({RouterTest, path(folder, "teste-routes.js")})
+    assert :ok = compile({RouterTest, path(folder, "test_requests.ts")})
     redefine_module!()
-    assert :ok = compile({RouterTest, path(folder, "teste-routes.js")})
+    assert :ok = compile({RouterTest, path(folder, "test_requests.ts")})
     entries = Mix.Compilers.Phoenix.TsInterface.read_manifest(@manifest)
     assert length(entries) == 1
     new_hash = RouterTest.module_info()[:md5]
-    expected_path = path(folder, "teste-routes.js")
+    expected_path = path(folder, "test_requests.ts")
     assert {RouterTest, ^new_hash, ^expected_path} = Enum.fetch!(entries, 0)
   end
 
   @tag :clean_folder
   test "remove outputs that are not in the mappings anymore", %{folder: folder} do
-    assert :ok = compile({RouterTest, path(folder, "teste-routes.js")})
+    assert :ok = compile({RouterTest, path(folder, "test_requests.ts")})
     assert :ok = compile({RouterTest, path(folder, "teste-routes-new.js")})
-    refute_file(path(folder, "teste-routes.js"))
+    refute_file(path(folder, "test_requests.ts"))
     entries = Mix.Compilers.Phoenix.TsInterface.read_manifest(@manifest)
     assert length(entries) == 1
     expected_path = path(folder, "teste-routes-new.js")
@@ -99,12 +99,12 @@ defmodule Mix.Compilers.Phoenix.TsInterfaceTest do
 
   @tag :clean_folder
   test "remove modules that are not in the mappings anymore", %{folder: folder} do
-    assert :ok = compile({RouterTest, path(folder, "teste-routes.js")})
-    assert :ok = compile({Elixir.Agent, path(folder, "agent.js")})
-    refute_file(path(folder, "teste-routes.js"))
+    assert :ok = compile({RouterTest, path(folder, "test_requests.ts")})
+    assert :ok = compile({Elixir.Agent, path(folder, "agent.ts")})
+    refute_file(path(folder, "test_requests.ts"))
     entries = Mix.Compilers.Phoenix.TsInterface.read_manifest(@manifest)
     assert length(entries) == 1
-    expected_path = path(folder, "agent.js")
+    expected_path = path(folder, "agent.ts")
     assert {Elixir.Agent, _, ^expected_path} = Enum.fetch!(entries, 0)
   end
 
@@ -112,13 +112,13 @@ defmodule Mix.Compilers.Phoenix.TsInterfaceTest do
   test "clean up compilation artifacts", %{folder: folder} do
     assert :ok =
              compile([
-               {RouterTest, path(folder, "teste-routes.js")},
-               {Elixir.Agent, path(folder, "agent.js")}
+               {RouterTest, path(folder, "test_requests.ts")},
+               {Elixir.Agent, path(folder, "agent.ts")}
              ])
 
     Mix.Compilers.Phoenix.TsInterface.clean(@manifest)
-    refute_file(path(folder, "teste-routes.js"))
-    refute_file(path(folder, "agent.js"))
+    refute_file(path(folder, "test_requests.ts"))
+    refute_file(path(folder, "agent.ts"))
   end
 
   defp compile(mappings, force \\ false)

@@ -10,13 +10,13 @@ NOTE: still currently in development, no stable release yet.
 
 ## Getting started
 
-Add the `tsinterface` compiler to the list of compilers in your project.
+Add the `ts_interface` compiler to the list of compilers in your project.
 
 ```elixir
 def project do
-    [app: :tsinterface_test,
+    [app: :ts_interface_test,
     ...
-    compilers: [:phoenix, :gettext] ++ Mix.compilers ++ [:tsinterface]
+    compilers: [:phoenix, :gettext] ++ Mix.compilers ++ [:ts_interface]
     ...]
 end
 ```
@@ -98,7 +98,7 @@ changes to take effect.
 | include       | Regex  | nil              | Will include only routes matching this regex     |
 | exclude       | Regex  | nil              | Will include only routes not matching this regex |
 
-Configurations should be added to the key `:tsinterface` in your application.
+Configurations should be added to the key `:ts_interface` in your application.
 
 ```elixir
 config :my_app, :ts_interface,
